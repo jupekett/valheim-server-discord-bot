@@ -1,5 +1,4 @@
-// Enumerates relevant server output messages that should be handled in the bot script.
-// TODO: muuta stringiksi? Helpompi vertailla yms.
+// Discord messages that the bot will send based on server output.
 export const discordMessages = {
   SERVER_STARTING: "Serveri käynnistyy.",
   VALHEIM_VERSION: "Käytettävä Valheim-versio: ",
