@@ -8,7 +8,7 @@ import dotenv from "dotenv";
 
 const DEBUG = false; // Log extra stuff in console?
 const DRY_RUN = true; // don't send messages to Discord?
-const RUN_SERVER = false; // Run the actual Valheim server?
+const RUN_SERVER = true; // Run the actual Valheim server?
 
 function log(message) {
   if (DEBUG) {
@@ -71,7 +71,6 @@ async function startServer(client) {
 
   script.on("close", async (code) => {
     log(`Script has exited with code ${code}`);
-    await sendStoppedMessage(client);
     setTimeout(() => {
       log("Exiting the bot process");
       process.exit();

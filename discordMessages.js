@@ -2,7 +2,7 @@
 // TODO: muuta stringiksi? Helpompi vertailla yms.
 export const discordMessages = {
   SERVER_STARTING: "Serveri käynnistyy.",
-  VALHEIM_VERSION: "Käytettävä Valheim-version: ",
+  VALHEIM_VERSION: "Käytettävä Valheim-versio: ",
   WORLD_NAME: "Maailman nimi: ",
   SERVER_READY: "Serveri ylhäällä, teretulemast.",
   PLAYER_JOINED: "Pelaaja liittyi: ",
