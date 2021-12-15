@@ -1,0 +1,19 @@
+{
+  "name": "valheim-servu-ilmoitukset",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "Juho Kettunen",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^13.3.1",
+    "dotenv": "^10.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.4.1"
+  },
+  "type": "module"
+}
