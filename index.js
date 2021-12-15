@@ -4,11 +4,12 @@ import { Client, Intents } from "discord.js";
 import { spawn } from "child_process";
 import { serverOutputs } from "./serverOutputs.js";
 import { discordMessages } from "./discordMessages.js";
+import { steamUsers } from "./steamUsers.js";
 import dotenv from "dotenv";
 
 const DEBUG = false; // log extra stuff in console?
-const DRY_RUN = true; // don't send messages to Discord?
-const RUN_SERVER = false; // run the actual Valheim server?
+const DRY_RUN = false; // don't send messages to Discord?
+const RUN_SERVER = true; // run the actual Valheim server?
 
 function log(message) {
   if (DEBUG) {
@@ -61,7 +62,6 @@ async function startServer(client) {
     : process.env.SCRIPT_PATH_TEST;
   const script = spawn(path);
   log(`Script started: ${path}`);
-  // sendStartMessage(client);
 
   const channel = await getChannel(client);
 
@@ -70,11 +70,8 @@ async function startServer(client) {
   });
 
   script.on("close", async (code) => {
-    log(`Script has exited with code ${code}`);
-    setTimeout(() => {
-      log("Exiting the bot process");
-      process.exit();
-    }, 1000); // give time for closing message to be sent
+    log(`Script exited with code ${code}`);
+    shutdown();
   });
 
   process.on("SIGINT", () => {
@@ -83,22 +80,59 @@ async function startServer(client) {
   });
 }
 
+function shutdown() {
+  setTimeout(() => {
+    log("Bot process exiting");
+    process.exit();
+  }, 1000); // give time for closing message to be sent
+}
+
 function handleServerOutput(channel, data) {
   log("Function call: handleServerOutput");
   const output = parseServerOutput(data);
-
   console.info(`Server output: ${output}`);
 
   for (let key in serverOutputs) {
     const regex = serverOutputs[key];
-    if (output.match(regex)) {
-      console.log(`Mätsännyt key: ${key}`);
+    const match = output.match(regex);
+    if (match) {
+      log(`Match found for key: ${key}`);
+      const message = createDiscordMessage(match, key);
+      sendMessage(channel, message);
       //TODO olisiko hyvä yhdistää serverin käynnistykseen liittyvät viestit yhdeksi discord-viestiksi?
       // Ei tulisi niin paljon spämmiä serveriä käynnistäessä.
-      sendMessageWithKey(channel, key);
+      //sendMessageWithKey(channel, key);
       return;
     }
   }
+}
+
+function createDiscordMessage(match, key) {
+  const message = discordMessages[key];
+  if (!message) {
+    console.warn(`createDiscordMessage: message with key ${key} not found.`);
+  }
+  const fullMessage = appendCapturedData(message, match, key);
+  return fullMessage;
+}
+
+function appendCapturedData(message, match, key) {
+  if (!match[1]) {
+    return message;
+  }
+  const data = match[1];
+  const appendage = key.startsWith("PLAYER") ? getSteamUserName(data) : data;
+  return message + appendage;
+}
+
+function getSteamUserName(id) {
+  log("steam users");
+  log(steamUsers);
+  const name = steamUsers[id];
+  if (!name) {
+    console.warn("getSteamUserName: username not found with ID", id);
+  }
+  return name;
 }
 
 // Server output includes useless filename and linenumber debug data.
@@ -111,22 +145,10 @@ function parseServerOutput(data) {
   return relevantText;
 }
 
-function sendMessageWithKey(channel, key) {
-  const message = discordMessages[key];
-  if (!message) {
-    console.warn("Discord message was not found with key", key);
-    return;
-  }
-  // FIXME vaatii yksilöllisempää käsittelyä jos halutaan välittää muuttujia
-  sendMessage(channel, message);
-}
-
 /** Entry point */
 async function main() {
   initialize();
 
-  // console.log("message regexes");
-  // console.log(serverOutputs);
   const token = process.env.TOKEN;
   const client = getClient();
   await client.login(token);
