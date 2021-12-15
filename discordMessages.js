@@ -6,7 +6,7 @@ export const discordMessages = {
   WORLD_NAME: "Maailman nimi: ",
   SERVER_READY: "Serveri ylhäällä, teretulemast.",
   PLAYER_JOINED: "Pelaaja liittyi: ",
-  CHARACTER_NAME: "Pelaajan nimi: ",
+  CHARACTER_NAME: "Hahmon nimi: ",
   PLAYER_LEFT: "Pelaaja poistui: ",
   SERVER_CLOSING: "Serveri sulkeutuu",
 };

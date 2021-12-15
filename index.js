@@ -6,9 +6,9 @@ import { serverOutputs } from "./serverOutputs.js";
 import { discordMessages } from "./discordMessages.js";
 import dotenv from "dotenv";
 
-const DEBUG = false; // Log extra stuff in console?
+const DEBUG = false; // log extra stuff in console?
 const DRY_RUN = true; // don't send messages to Discord?
-const RUN_SERVER = true; // Run the actual Valheim server?
+const RUN_SERVER = false; // run the actual Valheim server?
 
 function log(message) {
   if (DEBUG) {
@@ -85,7 +85,8 @@ async function startServer(client) {
 
 function handleServerOutput(channel, data) {
   log("Function call: handleServerOutput");
-  const output = data.toString();
+  const output = parseServerOutput(data);
+
   console.info(`Server output: ${output}`);
 
   for (let key in serverOutputs) {
@@ -98,6 +99,16 @@ function handleServerOutput(channel, data) {
       return;
     }
   }
+}
+
+// Server output includes useless filename and linenumber debug data.
+function parseServerOutput(data) {
+  log("Function call: parseServerOutput");
+  const text = data.toString();
+  const splitRegex = /\n\(Filename:/;
+  const match = text.match(splitRegex);
+  const relevantText = match ? text.substring(0, match.index) : text;
+  return relevantText;
 }
 
 function sendMessageWithKey(channel, key) {

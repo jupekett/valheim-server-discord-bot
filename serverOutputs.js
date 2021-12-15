@@ -9,5 +9,4 @@ export const serverOutputs = {
   CHARACTER_NAME: /Got character ZDOID from ([\w ]+) :/, 
   PLAYER_LEFT: /Closing socket (\d+)/, // ..steamID
   SERVER_CLOSING: /ZNet Shutdown/,
-  IGNORED_OUTPUTS: [/\(Filename:/], //FIXME tämä pitäisi mätsätä erikseen.
 };
