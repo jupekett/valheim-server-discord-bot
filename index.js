@@ -8,7 +8,7 @@ import { steamUsers } from "./steamUsers.js";
 import dotenv from "dotenv";
 
 const DEBUG = false; // log extra stuff in console?
-const DRY_RUN = false; // don't send messages to Discord?
+const DRY_RUN = false; // suppress sending messages to Discord?
 const RUN_SERVER = true; // run the actual Valheim server?
 
 function log(message) {
@@ -99,9 +99,6 @@ function handleServerOutput(channel, data) {
       log(`Match found for key: ${key}`);
       const message = createDiscordMessage(match, key);
       sendMessage(channel, message);
-      //TODO olisiko hyvä yhdistää serverin käynnistykseen liittyvät viestit yhdeksi discord-viestiksi?
-      // Ei tulisi niin paljon spämmiä serveriä käynnistäessä.
-      //sendMessageWithKey(channel, key);
       return;
     }
   }
