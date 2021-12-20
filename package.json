@@ -4,7 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "debug": "DEBUG=true START_SERVER=false node .",
+    "debug-dry": "DEBUG=true DRY_RUN=true START_SERVER=false node .",
+    "debug-server": "DEBUG=true START_SERVER=true node .",
+    "debug-discord": "DEBUG=true DRY_RUN=false node .",
+    "dry": "DRY_RUN=true START_SERVER=false node .",
+    "start": "DRY_RUN=false START_SERVER=true node ."
   },
   "author": "Juho Kettunen",
   "license": "ISC",
