@@ -3,10 +3,8 @@ import { spawn } from "child_process";
 import { serverOutputs } from "./serverOutputs.js";
 import { discordMessages } from "./discordMessages.js";
 import { steamUsers } from "./steamUsers.js";
-import {
-  bufferServerStartMessage,
-  bufferPlayerJoinMessage,
-} from "./buffers.js";
+import { bufferServerStartMessage } from "./buffers/startSequenceBuffer.js";
+import { bufferPlayerJoinMessage } from "./buffers/joinSequenceBuffer.js";
 import dotenv from "dotenv";
 
 const DEBUG = process.env.DEBUG === "true"; // log extra stuff in console?
@@ -95,23 +93,24 @@ function handleServerOutput(channel, data) {
   console.info(`Server output: ${output}`);
 
   for (const sequence in serverOutputs) {
-    log(sequence);
+    log(`Iterated output sequence: ${sequence}`);
     for (const key in serverOutputs[sequence]) {
-      log(key);
+      log(`Iterated output key: ${key}`);
       const regex = serverOutputs[sequence][key];
       const match = output.match(regex);
-      if (match) {
-        log(`Match found for key: ${key}`);
-        const message = createDiscordMessage(match, key);
-        if (sequence === "STARTING_SEQUENCE") {
-          bufferServerStartMessage(channel, message, key);
-        } else if (sequence === "PLAYER_JOIN_SEQUENCE") {
-          bufferPlayerJoinMessage(channel, message, key);
-        } else {
-          sendMessage(channel, message);
-        }
-        return;
+      if (!match) {
+        continue;
       }
+      log(`Match found for key: ${key}`);
+      const message = createDiscordMessage(match, key);
+      if (sequence === "STARTING_SEQUENCE") {
+        bufferServerStartMessage(channel, message, key);
+      } else if (sequence === "PLAYER_JOIN_SEQUENCE") {
+        bufferPlayerJoinMessage(channel, message, key);
+      } else {
+        sendMessage(channel, message);
+      }
+      return;
     }
   }
 }

@@ -1,15 +1,13 @@
-import { serverOutputs } from "./serverOutputs.js";
-import { sendMessage } from "./bot.js";
+import {
+  getSequenceKeys,
+  getEmptyBufferWithSequenceKeys,
+  lastItemOfSequence,
+} from "./bufferUtils.js";
+import { sendMessage } from "../bot.js";
 
-const START_SEQUENCE_KEYS = [];
-for (const key in serverOutputs["STARTING_SEQUENCE"]) {
-  START_SEQUENCE_KEYS.push(key);
-}
+const START_SEQUENCE_KEYS = getSequenceKeys("STARTING_SEQUENCE");
 
-const startSequenceBuffer = {};
-for (const key of START_SEQUENCE_KEYS) {
-  startSequenceBuffer[key] = "";
-}
+const startSequenceBuffer = getEmptyBufferWithSequenceKeys(START_SEQUENCE_KEYS);
 
 function bufferServerStartMessage(channel, message, key) {
   if (startSequenceBuffer[key]) {
@@ -20,10 +18,6 @@ function bufferServerStartMessage(channel, message, key) {
   if (key === lastItemOfSequence(START_SEQUENCE_KEYS)) {
     sendServerStartMessage(channel, startSequenceBuffer);
   }
-}
-
-function lastItemOfSequence(sequence) {
-  return sequence[sequence.length - 1];
 }
 
 function sendServerStartMessage(channel, buffer) {
@@ -39,8 +33,4 @@ function composeServerStartMessage(buffer) {
   return message;
 }
 
-function bufferPlayerJoinMessage(channel, message, key) {
-  console.warn("player join message buffer not implemented");
-}
-
-export { bufferServerStartMessage, bufferPlayerJoinMessage };
+export { bufferServerStartMessage };
