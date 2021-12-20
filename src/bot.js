@@ -3,6 +3,10 @@ import { spawn } from "child_process";
 import { serverOutputs } from "./serverOutputs.js";
 import { discordMessages } from "./discordMessages.js";
 import { steamUsers } from "./steamUsers.js";
+import {
+  bufferServerStartMessage,
+  bufferPlayerJoinMessage,
+} from "./buffers.js";
 import dotenv from "dotenv";
 
 const DEBUG = process.env.DEBUG === "true"; // log extra stuff in console?
@@ -90,14 +94,24 @@ function handleServerOutput(channel, data) {
   const output = parseServerOutput(data);
   console.info(`Server output: ${output}`);
 
-  for (let key in serverOutputs) {
-    const regex = serverOutputs[key];
-    const match = output.match(regex);
-    if (match) {
-      log(`Match found for key: ${key}`);
-      const message = createDiscordMessage(match, key);
-      sendMessage(channel, message);
-      return;
+  for (const sequence in serverOutputs) {
+    log(sequence);
+    for (const key in serverOutputs[sequence]) {
+      log(key);
+      const regex = serverOutputs[sequence][key];
+      const match = output.match(regex);
+      if (match) {
+        log(`Match found for key: ${key}`);
+        const message = createDiscordMessage(match, key);
+        if (sequence === "STARTING_SEQUENCE") {
+          bufferServerStartMessage(channel, message, key);
+        } else if (sequence === "PLAYER_JOIN_SEQUENCE") {
+          bufferPlayerJoinMessage(channel, message, key);
+        } else {
+          sendMessage(channel, message);
+        }
+        return;
+      }
     }
   }
 }
@@ -149,4 +163,4 @@ async function runBotAndServer() {
   await client.login(token);
 }
 
-export { runBotAndServer };
+export { runBotAndServer, sendMessage };
