@@ -2,14 +2,16 @@ import { Client, Intents } from "discord.js";
 import { spawn } from "child_process";
 import { serverOutputs } from "./serverOutputs.js";
 import { discordMessages } from "./discordMessages.js";
-import { steamUsers } from "./steamUsers.js";
+import { getSteamUsers } from "./steamUsers.js";
 import { bufferServerStartMessage } from "./buffers/startSequenceBuffer.js";
 import { bufferPlayerJoinMessage } from "./buffers/joinSequenceBuffer.js";
 import dotenv from "dotenv";
 
 const DEBUG = process.env.DEBUG === "true"; // log extra stuff in console?
 const DRY_RUN = process.env.DRY_RUN === "true"; // suppress sending messages to Discord?
-const RUN_SERVER = process.env.START_SERVER === "true"; // run the actual Valheim server?
+const RUN_SERVER = process.env.RUN_SERVER === "true"; // run the actual Valheim server?
+
+const STEAM_USERS = getSteamUsers();
 
 function log(message) {
   if (DEBUG) {
@@ -135,8 +137,8 @@ function appendCapturedData(message, match, key) {
 
 function getSteamUserName(id) {
   log("steam users");
-  log(steamUsers);
-  const name = steamUsers[id];
+  log(STEAM_USERS);
+  const name = STEAM_USERS[id];
   if (!name) {
     console.warn("getSteamUserName: username not found with ID", id);
   }
