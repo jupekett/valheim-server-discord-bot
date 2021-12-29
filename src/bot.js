@@ -59,11 +59,8 @@ function sendMessage(channel, message) {
 
 async function startServer(client) {
   log("Function call: startServer");
-  const path = RUN_SERVER
-    ? process.env.SCRIPT_PATH
-    : process.env.SCRIPT_PATH_TEST;
-  const script = spawn(path);
-  log(`Script started: ${path}`);
+  const script = RUN_SERVER ? startServerScript() : startTestScript();
+  log(`Script started: ${script.path}`);
 
   const channel = await getChannel(client);
 
@@ -80,6 +77,26 @@ async function startServer(client) {
     log("Bot received SIGINT");
     script.kill("SIGINT");
   });
+}
+
+function startServerScript() {
+  const path = process.env.SERVER_SCRIPT_PATH;
+  const workingDirectory = getPathDirectory(path);
+  return spawn(path, [], { cwd: workingDirectory });
+}
+
+function getPathDirectory(path) {
+  const index = path.lastIndexOf("/");
+  if (index === -1) {
+    console.warn("getPathDirectory: path doesn't include slashes");
+  }
+  const dir = path.substring(0, index);
+  return dir;
+}
+
+function startTestScript() {
+  const path = "./scripts/output-test.sh";
+  return spawn(path);
 }
 
 function shutdown() {
