@@ -29,7 +29,7 @@ while IFS= read -r line; do
         IFS="="
         read -a splitLine <<<"$line"
         IFS=
-        echo "Writing secret to example file:" $splitLine
+        echo "Writing secret var to example file:" $splitLine
         echo $splitLine'=' >>$exampleFile
     else
         echo "Writing plain line to example file:" $line
