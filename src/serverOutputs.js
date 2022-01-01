@@ -4,12 +4,12 @@ export const serverOutputs = {
   STARTING_SEQUENCE: {
     SERVER_STARTING: /^Starting server/,
     VALHEIM_VERSION: /Valheim version:(\d+.\d+.\d+)/,
-    WORLD_NAME: /Get create world ([\w ]+)\n/,
+    WORLD_NAME: /Get create world ([a-zA-Z0-9]+)\n/,
     SERVER_READY: /Load world/, // Last unique message when opening server
   },
   PLAYER_JOIN_SEQUENCE: {
     PLAYER_JOINED: /Got handshake from client (\d+)/, // ..steamID
-    CHARACTER_NAME: /Got character ZDOID from ([\w ]+) :/,
+    CHARACTER_NAME: /Got character ZDOID from ([a-zA-ZåäöæøÅÄÖÆØ' ]+) :/,
   },
   PLAYER_LEFT_SEQUENCE: {
     PLAYER_LEFT: /Closing socket (\d+)/, // ..steamID. FIXME: server doesn't always output this when player leaves.
