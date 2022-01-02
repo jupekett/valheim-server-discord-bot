@@ -9,9 +9,10 @@
     "server": "DRY_RUN=false RUN_SERVER=true node .",
     "start": "DRY_RUN=false RUN_SERVER=true node .",
     "debug-dry": "DEBUG=true DRY_RUN=true RUN_SERVER=false node .",
+    "server-dry": "DRY_RUN=true RUN_SERVER=true node .",
     "debug-server": "DEBUG=true RUN_SERVER=true node .",
     "debug-discord": "DEBUG=true DRY_RUN=false node .",
-    "dry-server": "DRY_RUN=true RUN_SERVER=true node ."
+    "debug-dry-server": "DEBUG=true DRY_RUN=true SERVER=true node ."
   },
   "author": "Juho Kettunen",
   "license": "ISC",
