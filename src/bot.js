@@ -130,6 +130,7 @@ function handleServerOutput(channel, data) {
       return;
     }
   }
+  log("No operation for this output.");
 }
 
 function createDiscordMessage(match, key) {
