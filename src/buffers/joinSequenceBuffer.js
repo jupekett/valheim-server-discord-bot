@@ -2,6 +2,7 @@ import {
   getSequenceKeys,
   getEmptyBufferWithSequenceKeys,
 } from "./bufferUtils.js";
+import { log } from "../utils.js";
 import { sendMessage } from "../bot.js";
 
 const JOIN_SEQUENCE_KEYS = getSequenceKeys("PLAYER_JOIN_SEQUENCE");
@@ -10,12 +11,13 @@ const JOIN_BUFFERS = [];
 function bufferPlayerJoinMessage(channel, message, key) {
   if (key === "PLAYER_JOINED") {
     handlePlayerJoinMessage(message);
-    return;
   } else if (key === "CHARACTER_NAME") {
     handleCharacterMessage(channel, message);
   } else {
     console.warn("Wrong key for buffering player join messages: ", key);
   }
+  log("Join buffers AFTER buffering player join message:");
+  log(JOIN_BUFFERS);
 }
 
 function handlePlayerJoinMessage(message) {
@@ -61,7 +63,7 @@ function sendPlayerJoinMessage(channel, buffer) {
 function composePlayerJoinMessage(buffer) {
   const playerMessage = buffer["PLAYER_JOINED"];
   const characterMessage = buffer["CHARACTER_NAME"];
-  const message = `${playerMessage}\n${characterMessage}`;
+  const message = `${playerMessage}\n- ${characterMessage}`;
   return message;
 }
 

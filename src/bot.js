@@ -1,4 +1,5 @@
 import { Client, Intents } from "discord.js";
+import { log } from "./utils.js";
 import { spawn } from "child_process";
 import { serverOutputs } from "./serverOutputs.js";
 import { discordMessages } from "./discordMessages.js";
@@ -7,22 +8,19 @@ import { bufferServerStartMessage } from "./buffers/startSequenceBuffer.js";
 import { bufferPlayerJoinMessage } from "./buffers/joinSequenceBuffer.js";
 import dotenv from "dotenv";
 
+dotenv.config();
+
 const DEBUG = process.env.DEBUG === "true"; // log extra stuff in console?
 const DRY_RUN = process.env.DRY_RUN === "true"; // suppress sending messages to Discord?
 const RUN_SERVER = process.env.RUN_SERVER === "true"; // run the actual Valheim server?
+log("Startup parameters:");
+log("DEBUG: " + DEBUG);
+log("DRY_RUN: " + DRY_RUN);
+log("RUN_SERVER: " + RUN_SERVER);
 
 const STEAM_USERS = getSteamUsers();
-
-function log(message) {
-  if (DEBUG) {
-    console.info(message);
-  }
-}
-
-function initialize() {
-  log("Function call: initialize");
-  dotenv.config();
-}
+log("Steam users:");
+log(STEAM_USERS);
 
 function getClient() {
   log("Function call: getClient");
@@ -109,7 +107,7 @@ function shutdown() {
 function handleServerOutput(channel, data) {
   log("Function call: handleServerOutput");
   const output = parseServerOutput(data);
-  console.info(`Server output: ${output}`);
+  console.info(`Server output: ${output}\n`);
 
   for (const sequence in serverOutputs) {
     log(`Iterated output sequence: ${sequence}`);
@@ -153,8 +151,6 @@ function appendCapturedData(message, match, key) {
 }
 
 function getSteamUserName(id) {
-  log("steam users");
-  log(STEAM_USERS);
   const name = STEAM_USERS[id];
   if (!name) {
     console.warn("getSteamUserName: username not found with ID", id);
@@ -166,16 +162,15 @@ function getSteamUserName(id) {
 function parseServerOutput(data) {
   log("Function call: parseServerOutput");
   const text = data.toString();
-  const splitRegex = /\n\(Filename:/;
+  const splitRegex = /\(Filename:/;
   const match = text.match(splitRegex);
   const relevantText = match ? text.substring(0, match.index) : text;
-  return relevantText;
+  const strippedText = relevantText.trim(); // strip unnecessary line breaks
+  return strippedText;
 }
 
 /** Entry point */
 async function runBotAndServer() {
-  initialize();
-
   const token = process.env.TOKEN;
   const client = getClient();
   await client.login(token);
