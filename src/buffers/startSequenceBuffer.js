@@ -7,12 +7,12 @@ import { sendMessage } from "../bot.js";
 
 const START_SEQUENCE_KEYS = getSequenceKeys("STARTING_SEQUENCE");
 
-const startSequenceBuffer = getEmptyBufferWithSequenceKeys(START_SEQUENCE_KEYS);
+const START_BUFFER = getEmptyBufferWithSequenceKeys(START_SEQUENCE_KEYS);
 
 function bufferServerStartMessage(channel, message, key) {
-  startSequenceBuffer[key] = message;
+  START_BUFFER[key] = message;
   if (key === lastItemOfSequence(START_SEQUENCE_KEYS)) {
-    sendServerStartMessage(channel, startSequenceBuffer);
+    sendServerStartMessage(channel, START_BUFFER);
   }
 }
 

@@ -166,8 +166,8 @@ function parseServerOutput(data) {
   const splitRegex = /\(Filename:/;
   const match = text.match(splitRegex);
   const relevantText = match ? text.substring(0, match.index) : text;
-  const strippedText = relevantText.trim(); // strip unnecessary line breaks
-  return strippedText;
+  const trimmedText = relevantText.trim(); // strip unnecessary line breaks
+  return trimmedText;
 }
 
 /** Entry point */
