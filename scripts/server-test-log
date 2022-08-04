@@ -1,0 +1,28 @@
+============= SERVER START SEQUENCE ==============
+Starting server PRESS CTRL-C to exit
+...
+08/04/2022 21:00:18: Get create world Helgasund
+08/04/2022 21:00:18: Valheim version:0.209.10
+08/04/2022 21:00:25: Load world: Helgasund (Helgasund)
+============= LOGIN SEQUENCE: single login and logout ==============
+08/04/2022 21:00:25: Got handshake from client $MOCK_ID1
+08/04/2022 21:00:25: Got character ZDOID from $MOCK_CHARACTER1 : -43114831:1
+08/04/2022 21:00:25: Closing socket $MOCK_ID1
+============= LOGIN SEQUENCE: interweaved logins (join2-join3-character2-character3) ==============
+08/04/2022 21:00:25: Got handshake from client $MOCK_ID2
+08/04/2022 21:00:25: Got handshake from client $MOCK_ID3
+08/04/2022 21:00:25: Got character ZDOID from $MOCK_CHARACTER2 : -43114831:1
+08/04/2022 21:00:25: Got character ZDOID from $MOCK_CHARACTER3 : -43114831:1
+08/04/2022 21:00:25: Closing socket $MOCK_ID2
+08/04/2022 21:00:25: Closing socket $MOCK_ID3
+============= LOGIN SEQUENCE: nested logins (join4-join5-character5-character4) ==============
+08/04/2022 21:00:25: Got handshake from client $MOCK_ID4
+08/04/2022 21:00:25: Got handshake from client $MOCK_ID5
+08/04/2022 21:00:25: Got character ZDOID from $MOCK_CHARACTER5 : -43114831:1
+08/04/2022 21:00:25: Got character ZDOID from $MOCK_CHARACTER4 : -43114831:1
+08/04/2022 21:00:25: Closing socket $MOCK_ID4
+08/04/2022 21:00:25: Closing socket $MOCK_ID5
+============= SERVER SHUTDOWN SEQUENCE ==============
+08/04/2022 21:01:04: ZNet Shutdown
+...
+08/04/2022 21:01:07: Net scene destroyed

@@ -3,8 +3,8 @@
 export const serverOutputs = {
   STARTING_SEQUENCE: {
     SERVER_STARTING: /^Starting server/,
-    VALHEIM_VERSION: /Valheim version:(\d+.\d+.\d+)/,
     WORLD_NAME: /Get create world ([a-zA-Z0-9]+)/,
+    VALHEIM_VERSION: /Valheim version:(\d+.\d+.\d+)/,
     SERVER_READY: /Load world/, // Last unique message when opening server
   },
   PLAYER_JOIN_SEQUENCE: {
