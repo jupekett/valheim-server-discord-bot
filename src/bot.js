@@ -11,11 +11,11 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const DEBUG = process.env.DEBUG === "true"; // log extra stuff in console?
-const DRY_RUN = process.env.DRY_RUN === "true"; // suppress sending messages to Discord?
+const SEND_TO_DISCORD = process.env.SEND_TO_DISCORD === "true"; // send discord messages?
 const RUN_SERVER = process.env.RUN_SERVER === "true"; // run the actual Valheim server?
 log("Startup parameters:");
 log("DEBUG: " + DEBUG);
-log("DRY_RUN: " + DRY_RUN);
+log("SEND_TO_DISCORD: " + SEND_TO_DISCORD);
 log("RUN_SERVER: " + RUN_SERVER);
 
 const STEAM_USERS = getSteamUsers();
@@ -51,7 +51,7 @@ function sendMessage(channel, message) {
     throw new Error(message);
   }
   console.info(`Sending a message: ${message}`);
-  if (DRY_RUN) return;
+  if (!SEND_TO_DISCORD) return;
   channel.send(message);
 }
 
