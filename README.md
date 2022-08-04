@@ -2,8 +2,6 @@
 
 Wrapper script for Valheim dedicated server on Linux. Uses `discord.js` to send messages about server status to a discord channel.
 
-Note: personal project and not guaranteed to work out-of-the-box.
-
 ## Running
 
 - Install `Node.js`: https://nodejs.org/
