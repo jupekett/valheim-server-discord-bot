@@ -13,10 +13,12 @@ dotenv.config();
 const DEBUG = process.env.DEBUG === "true"; // log extra stuff in console?
 const SEND_TO_DISCORD = process.env.SEND_TO_DISCORD === "true"; // send discord messages?
 const RUN_SERVER = process.env.RUN_SERVER === "true"; // run the actual Valheim server?
+const LANGUAGE = process.env.LANGUAGE;
 log("Startup parameters:");
 log("DEBUG: " + DEBUG);
 log("SEND_TO_DISCORD: " + SEND_TO_DISCORD);
 log("RUN_SERVER: " + RUN_SERVER);
+log("LANGUAGE: " + DEBUG);
 
 const STEAM_USERS = getSteamUsers();
 log("Steam users:");
@@ -134,7 +136,7 @@ function handleServerOutput(channel, data) {
 }
 
 function createDiscordMessage(match, key) {
-  const message = discordMessages[key];
+  const message = discordMessages[LANGUAGE][key];
   if (!message) {
     console.warn(`createDiscordMessage: message with key ${key} not found.`);
   }
