@@ -52,7 +52,7 @@ function sendMessage(channel, message) {
     console.error(message);
     throw new Error(message);
   }
-  console.info(`Sending a message: ${message}`);
+  console.info(`Sending a message: ${message}\n`);
   if (!SEND_TO_DISCORD) return;
   channel.send(message);
 }
@@ -109,7 +109,7 @@ function shutdown() {
 function handleServerOutput(channel, data) {
   log("Function call: handleServerOutput");
   const output = parseServerOutput(data);
-  console.info(`Server output: ${output}\n`);
+  console.info(output);
 
   for (const sequence in serverOutputs) {
     log(`Iterated output sequence: ${sequence}`);
