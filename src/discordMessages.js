@@ -19,5 +19,5 @@ export const discordMessages = {
     CHARACTER_NAME: "Hahmo: ",
     PLAYER_LEFT: "Pelaaja poistui: ",
     SERVER_CLOSING: "Serveri sulkeutuu...",
-  }
+  },
 };

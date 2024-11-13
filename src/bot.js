@@ -28,7 +28,7 @@ function getClient() {
   log("Function call: getClient");
   const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
   client.once("ready", async () => {
-    startServer(client);
+    await startServer(client);
   });
   return client;
 }
@@ -161,7 +161,7 @@ function getSteamUserName(id) {
   return name;
 }
 
-// Server output includes useless filename and linenumber debug data.
+// Server output includes useless filename and line number debug data.
 function parseServerOutput(data) {
   log("Function call: parseServerOutput");
   const text = data.toString();

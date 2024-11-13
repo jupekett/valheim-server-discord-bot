@@ -12,7 +12,8 @@
     "debug": "DEBUG=true SEND_TO_DISCORD=false RUN_SERVER=false node .",
     "debug-server": "DEBUG=true SEND_TO_DISCORD=true RUN_SERVER=true node .",
     "debug-discord": "DEBUG=true SEND_TO_DISCORD=true RUN_SERVER=false node .",
-    "debug-dry-server": "DEBUG=true SEND_TO_DISCORD=false SERVER=true node ."
+    "debug-dry-server": "DEBUG=true SEND_TO_DISCORD=false SERVER=true node .",
+    "test": "npm run dry"
   },
   "author": "Juho Kettunen",
   "license": "ISC",
